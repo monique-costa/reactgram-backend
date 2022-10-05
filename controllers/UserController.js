@@ -123,16 +123,16 @@ const getUserById = async(req, res) => {
 
     try {
         const user = await User.findById(mongoose.Types.ObjectId(id)).select("-password");
+        res.status(200).json(user);
+        
+        if(!user){
+            res.status(404).json({errors: ["Usuário não existe."]});
+            return;
+        }
     } catch (error) {
         res.status(404).json({errors: ["Usuário não existe."]});
     }
 
-    if(!user){
-        res.status(404).json({errors: ["Usuário não existe."]});
-        return;
-    }
-
-    res.status(200).json(user);
 }
 
 module.exports = {
